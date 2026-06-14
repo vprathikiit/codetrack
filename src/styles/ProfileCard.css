@@ -1,0 +1,101 @@
+.profile-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  color: #8b949e;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.platform-box {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.platform-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.platform-name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.leetcode-color { color: #ffa116; }
+.cf-color { color: #1e90ff; }
+
+.username {
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.lc-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 12px;
+}
+
+.lc-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lc-stat .count {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.lc-stat .label {
+  font-size: 0.75rem;
+  color: #8b949e;
+}
+
+.lc-stat.easy .count { color: #3fb950; }
+.lc-stat.medium .count { color: #ffa116; }
+.lc-stat.hard .count { color: #f85149; }
+
+.total-solved {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8b949e;
+  border-top: 1px solid #30363d;
+  padding-top: 10px;
+}
+
+.cf-rating-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.cf-tier {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.cf-rating {
+  font-size: 0.9rem;
+  color: #8b949e;
+}

@@ -1,0 +1,61 @@
+.leaderboard-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.week-label {
+  font-size: 0.8rem;
+  color: #58a6ff;
+  background: #1c2d40;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.lb-table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: #8b949e;
+  border-bottom: 1px solid #30363d;
+  font-weight: 500;
+}
+
+.lb-table td {
+  padding: 12px;
+  border-bottom: 1px solid #21262d;
+  color: #e6edf3;
+}
+
+.lb-table tr:last-child td {
+  border-bottom: none;
+}
+
+.you-row td {
+  background: #1c2d40;
+  color: #58a6ff;
+  font-weight: 600;
+}
+
+.rank-cell {
+  font-size: 1.1rem;
+}
+
+.points-cell {
+  color: #3fb950;
+  font-weight: 600;
+}

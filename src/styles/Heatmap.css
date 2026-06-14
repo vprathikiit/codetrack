@@ -1,0 +1,42 @@
+.heatmap-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  gap: 3px;
+  margin-bottom: 12px;
+}
+
+.heatmap-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.heatmap-cell:hover {
+  opacity: 0.7;
+  outline: 1px solid #58a6ff;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  font-size: 0.75rem;
+  color: #8b949e;
+}
+
+.legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}

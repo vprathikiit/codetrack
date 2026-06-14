@@ -22,3 +22,13 @@ h1 {
   color: #58a6ff;
   margin-bottom: 10px;
 }
+
+.dashboard-header {
+  margin-bottom: 28px;
+}
+
+.subtitle {
+  color: #8b949e;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
