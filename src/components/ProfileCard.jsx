@@ -1,71 +1,76 @@
 import React from "react";
 import '../styles/ProfileCard.css';
 
-function ProfileCard() {
-    const mockData = {
-        leetcode: {
-            username: 'prathk_codes',
-            easy: 50,
-            medium: 100,
-            hard: 30,
-            total: 180
-        },
-        codeforces: {
-            username: 'prathik_cf',
-            rating: 1420,
-            tier: 'Specialist',
-            tierColor: '#1e90ff'
-        }
-    };
+function ProfileCard({leetcodeData, codeforcesData}) {
+    if(!leetcodeData && !codeforcesData) {
+        return (
+            <div className="profile-card empty-state">
+                <p>Enter your usernames above to see your profile ☝️</p>
+            </div>
+        );
+    }
 
     return (
         <div className="profile-card">
             <h2 className="card-title">Profile</h2>
 
             <div className="profile-grid">
-
+              {leetcodeData && (
                 <div className="platform-box">
                     <div className="platform-header">
                         <span className="platform-name leetcode-color">LeetCode</span>
-                        <span className="username">@{mockData.leetcode.username}</span>
+                        <span className="username">@{leetcodeData.username}</span>
                     </div>
+                    {leetcodeData.error ? (
+                        <p className="error-text">User not found</p>
+                    ) : (
+                    <>
                     <div className="lc-stats">
                         <div className="lc-stat easy">
-                            <span className="count">{mockData.leetcode.easy}</span>
+                            <span className="count">{leetcodeData.easy}</span>
                             <span className="label">Easy</span>
                         </div>
                         <div className="lc-stat medium">
-                            <span className="count">{mockData.leetcode.medium}</span>
+                            <span className="count">{leetcodeData.medium}</span>
                             <span className="label">Medium</span>
                         </div>
                         <div className="lc-stat hard">
-                            <span className="count">{mockData.leetcode.hard}</span>
+                            <span className="count">{leetcodeData.hard}</span>
                             <span className="label">Hard</span>
                         </div>
                     </div>
                     <div className="total-solved">
-                        Total solved : <strong>{mockData.leetcode.total}</strong>
+                        Total solved : <strong>{leetcodeData.total}</strong>
                     </div>
+                    <div className="total-solved">
+                        Ranking : <strong>#{leetcodeData.ranking}</strong>
+                    </div>
+                    </>
+                    )}
                 </div>
+              )}
 
+               {codeforcesData && (
                 <div className="platform-box">
                     <div className="platform-header">
                         <span className="platform-name cf-color">Codeforces</span>
-                        <span className="username">@{mockData.codeforces.username}</span>
+                        <span className="username">@{codeforcesData.username}</span>
                     </div>
                     <div className="cf-rating-box">
                         <span
                           className="cf-tier"
-                          style={{color: mockData.codeforces.tierColor}}
+                          style={{color: codeforcesData.tierColor}}
                         >
-                          {mockData.codeforces.tier}  
+                          {codeforcesData.tier}  
                         </span>
                         <span className="cf-rating">
-                            Rating: <strong>{mockData.codeforces.rating}</strong>
+                            Rating: <strong>{codeforcesData.rating}</strong>
                         </span>
                     </div>
                 </div>
+              )}
 
+              
             </div>
         </div>
     );
