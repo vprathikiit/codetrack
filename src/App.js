@@ -41,7 +41,7 @@ function App() {
       else if(cfUsername) {
         setCodeforcesData({username: cfUsername, error: true});
       }
-      
+
     }
     catch (err) {
       console.error('handleSubmit error:', err);
@@ -66,7 +66,10 @@ function App() {
             leetcodeData={leetcodeData}
             codeforcesData={codeforcesData}
           />
-          <Heatmap />
+          <Heatmap 
+            lcCalendar={leetcodeData?.submissionCalendar ?? {}}
+            cfCalendar={codeforcesData?.submissionCalendar ?? {}}
+          />
           <RadarChart />
           <Leaderboard />
         </>

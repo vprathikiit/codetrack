@@ -4,11 +4,46 @@
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 20px;
+  position: relative;
+}
+
+.heatmap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.heatmap-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.heatmap-stat {
+  font-size: 0.8rem;
+  color: #8b949e;
+}
+
+.heatmap-stat strong {
+  color: #e6edf3;
+}
+
+.month-labels {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  margin-bottom: 4px;
+}
+
+.month-label {
+  font-size: 0.7rem;
+  color: #8b949e;
 }
 
 .heatmap-grid {
   display: grid;
   grid-template-columns: repeat(53, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  grid-auto-flow: column;
   gap: 3px;
   margin-bottom: 12px;
 }
@@ -22,7 +57,7 @@
 }
 
 .heatmap-cell:hover {
-  opacity: 0.7;
+  opacity: 0.75;
   outline: 1px solid #58a6ff;
 }
 
@@ -39,4 +74,40 @@
   width: 12px;
   height: 12px;
   border-radius: 2px;
+}
+
+.heatmap-tooltip {
+  position: fixed;
+  background: #1c2128;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  pointer-events: none;
+  z-index: 1000;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.tooltip-date {
+  font-weight: 600;
+  color: #e6edf3;
+  margin-bottom: 6px;
+}
+
+.tooltip-none {
+  color: #8b949e;
+}
+
+.tooltip-row {
+  color: #8b949e;
+  margin-bottom: 2px;
+}
+
+.tooltip-total {
+  border-top: 1px solid #30363d;
+  margin-top: 6px;
+  padding-top: 6px;
+  color: #3fb950;
+  font-weight: 600;
 }
