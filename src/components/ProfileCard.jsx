@@ -56,6 +56,10 @@ function ProfileCard({leetcodeData, codeforcesData}) {
                         <span className="platform-name cf-color">Codeforces</span>
                         <span className="username">@{codeforcesData.username}</span>
                     </div>
+                    {codeforcesData.error ? (
+                        <p className="error-text">User not found</p>
+                    ) : (
+                    <>    
                     <div className="cf-rating-box">
                         <span
                           className="cf-tier"
@@ -63,13 +67,27 @@ function ProfileCard({leetcodeData, codeforcesData}) {
                         >
                           {codeforcesData.tier}  
                         </span>
-                        <span className="cf-rating">
-                            Rating: <strong>{codeforcesData.rating}</strong>
-                        </span>
+                        <div className="cf-rating-row">
+                            <span className="cf-rating">
+                                Current : <strong>{codeforcesData.rating}</strong>
+                            </span>
+                            <span className="cf-rating">
+                                Peak : <strong>{codeforcesData.maxRating}</strong>
+                            </span>
+                        </div>
+                        {codeforcesData.country && (
+                            <span className="cf-country">
+                                📍 {codeforcesData.country}
+                            </span>
+                        )}
                     </div>
+                    <div className="total-solved">
+                        Total submissions : <strong>{codeforcesData.totalSubmissions}</strong>
+                    </div>
+                    </>
+                   )} 
                 </div>
               )}
-
               
             </div>
         </div>

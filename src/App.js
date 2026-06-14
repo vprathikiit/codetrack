@@ -6,6 +6,7 @@ import Heatmap from './components/Heatmap';
 import RadarChart from './components/RadarChart';
 import Leaderboard from './components/Leaderboard';
 import { fetchLeetCodeData } from './utils/leetcodeAPI';
+import { fetchCodeforcesData } from './utils/codeforcesAPI';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -16,23 +17,33 @@ function App() {
   const handleSubmit = async (lcUsername, cfUsername) => {
     setLoading(true);
     setHasSearched(false);
+    setLeetcodeData(null);
+    setCodeforcesData(null);
 
     try {
-      if (lcUsername) {
-        const lcData = await fetchLeetCodeData(lcUsername);
-        console.log('Setting leetcode data:', lcData);
+      const [lcData, cfData] = await Promise.all([
+        lcUsername ? fetchLeetCodeData(lcUsername) : Promise.resolve(null),
+        cfUsername ? fetchCodeforcesData(cfUsername) : Promise.resolve(null)
+      ]);
+
+      if(lcData) {
         setLeetcodeData(lcData);
       }
 
-      if (cfUsername) {
-        setCodeforcesData({
-          username: cfUsername,
-          tier: 'Coming later',
-          rating: '...',
-          tierColor: '#8b949e'
-        });
+      else if(lcUsername) {
+        setLeetcodeData({username: lcUsername, error: true});
       }
-    } catch (err) {
+
+      if(cfData) {
+        setCodeforcesData(cfData);
+      }
+
+      else if(cfUsername) {
+        setCodeforcesData({username: cfUsername, error: true});
+      }
+      
+    }
+    catch (err) {
       console.error('handleSubmit error:', err);
     }
 
