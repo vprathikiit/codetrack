@@ -70,7 +70,9 @@ function App() {
             lcCalendar={leetcodeData?.submissionCalendar ?? {}}
             cfCalendar={codeforcesData?.submissionCalendar ?? {}}
           />
-          <RadarChart />
+          <RadarChart 
+            tagStats={codeforcesData?.tagStats ?? {}}
+          />
           <Leaderboard />
         </>
       )}
