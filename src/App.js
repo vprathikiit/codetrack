@@ -5,6 +5,7 @@ import ProfileCard from './components/ProfileCard';
 import Heatmap from './components/Heatmap';
 import RadarChart from './components/RadarChart';
 import Leaderboard from './components/Leaderboard';
+import Recommendations from './components/Recommendations';
 import { fetchLeetCodeData } from './utils/leetcodeAPI';
 import { fetchCodeforcesData } from './utils/codeforcesAPI';
 
@@ -71,6 +72,9 @@ function App() {
             cfCalendar={codeforcesData?.submissionCalendar ?? {}}
           />
           <RadarChart 
+            tagStats={codeforcesData?.tagStats ?? {}}
+          />
+          <Recommendations
             tagStats={codeforcesData?.tagStats ?? {}}
           />
           <Leaderboard />

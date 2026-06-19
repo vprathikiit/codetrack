@@ -13,6 +13,8 @@ function UsernameForm({onSubmit, loading}) {
     };
 
     const handleGuestLogin = () => {
+        setLcUsername('neal_wu');
+        setCfUsername('tourist');
         onSubmit('neal_wu', 'tourist');
     };
 
@@ -28,6 +30,7 @@ function UsernameForm({onSubmit, loading}) {
                       placeholder="e.g. neal_wu"
                       value={lcUsername}
                       onChange={(e) => setLcUsername(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
                     />
                 </div>
                 <div className="input-group">
@@ -38,6 +41,7 @@ function UsernameForm({onSubmit, loading}) {
                       placeholder="e.g. tourist"
                       value={cfUsername}
                       onChange={(e) => setCfUsername(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
                     />
                 </div>
             </div>
