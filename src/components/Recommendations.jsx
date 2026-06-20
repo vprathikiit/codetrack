@@ -1,85 +1,124 @@
 import React, { useState } from 'react';
 import '../styles/Recommendations.css';
 import { processTagStats } from '../utils/tagUtils';
+import { getProblemsForDifficulty, getProblemsForTag } from '../utils/problemBank';
 
-const PROBLEM_BANK = {
-  'dp': [
-    { name: 'Climbing Stairs', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/climbing-stairs/' },
-    { name: 'Coin Change', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/coin-change/' },
-    { name: 'Longest Common Subsequence', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/longest-common-subsequence/' },
-    { name: 'Maximum Subarray', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/maximum-subarray/' },
-    { name: 'Knapsack', platform: 'Codeforces', difficulty: 'Medium', url: 'https://codeforces.com/problemset/problem/414/B' },
-  ],
-  'graphs': [
-    { name: 'Number of Islands', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/number-of-islands/' },
-    { name: 'Course Schedule', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/course-schedule/' },
-    { name: 'Clone Graph', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/clone-graph/' },
-    { name: 'Dijkstra Roads', platform: 'Codeforces', difficulty: 'Medium', url: 'https://codeforces.com/problemset/problem/20/C' },
-  ],
-  'trees': [
-    { name: 'Maximum Depth of Binary Tree', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/maximum-depth-of-binary-tree/' },
-    { name: 'Validate Binary Search Tree', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/validate-binary-search-tree/' },
-    { name: 'Binary Tree Level Order Traversal', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/binary-tree-level-order-traversal/' },
-  ],
-  'greedy': [
-    { name: 'Jump Game', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/jump-game/' },
-    { name: 'Gas Station', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/gas-station/' },
-    { name: 'Greedy CF', platform: 'Codeforces', difficulty: 'Easy', url: 'https://codeforces.com/problemset/problem/670/C' },
-  ],
-  'binary search': [
-    { name: 'Binary Search', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/binary-search/' },
-    { name: 'Search in Rotated Sorted Array', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/search-in-rotated-sorted-array/' },
-    { name: 'Median of Two Sorted Arrays', platform: 'LeetCode', difficulty: 'Hard', url: 'https://leetcode.com/problems/median-of-two-sorted-arrays/' },
-  ],
-  'two pointers': [
-    { name: 'Two Sum II', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/' },
-    { name: 'Container With Most Water', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/container-with-most-water/' },
-    { name: '3Sum', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/3sum/' },
-  ],
-  'strings': [
-    { name: 'Longest Substring Without Repeating', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/' },
-    { name: 'Valid Anagram', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/valid-anagram/' },
-    { name: 'String CF', platform: 'Codeforces', difficulty: 'Easy', url: 'https://codeforces.com/problemset/problem/432/C' },
-  ],
-  'dfs and similar': [
-    { name: 'Path Sum', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/path-sum/' },
-    { name: 'Word Search', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/word-search/' },
-    { name: 'Surrounded Regions', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/surrounded-regions/' },
-  ],
-  'data structures': [
-    { name: 'LRU Cache', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/lru-cache/' },
-    { name: 'Min Stack', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/min-stack/' },
-    { name: 'Implement Queue using Stacks', platform: 'LeetCode', difficulty: 'Easy', url: 'https://leetcode.com/problems/implement-queue-using-stacks/' },
-  ],
-  'math': [
-    { name: 'Reverse Integer', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/reverse-integer/' },
-    { name: 'Pow(x,n)', platform: 'LeetCode', difficulty: 'Medium', url: 'https://leetcode.com/problems/powx-n/' },
-    { name: 'Math CF', platform: 'Codeforces', difficulty: 'Easy', url: 'https://codeforces.com/problemset/problem/1/A' },
-  ],
+const getDifficultyLevel = (cfRating) => {
+  if (!cfRating || cfRating < 1200) return 'Easy';
+  if (cfRating < 1800) return 'Medium';
+  return 'Hard';
 };
 
-function Recommendations({ tagStats }) {
+const getChallengeDifficulty = (cfRating) => {
+  if (!cfRating || cfRating < 1200) return 'Medium';
+  if (cfRating < 1800) return 'Hard';
+  return 'Hard';
+};
+
+const pickRandom = (arr) => {
+  if (!arr || arr.length === 0) return null;
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
+function Recommendations({ tagStats, cfRating }) {
   const [recommendations, setRecommendations] = useState([]);
   const [generated, setGenerated] = useState(false);
 
   const generateRecommendations = () => {
     const processedTags = processTagStats(tagStats);
-    const weakTopics = processedTags.filter(t => t.isWeak);
+    if (processedTags.length === 0) return;
 
-    const targetTags = weakTopics.length > 0 ? weakTopics : processedTags;
-    if (targetTags.length === 0) return;
+    const userDifficulty = getDifficultyLevel(cfRating);
+    const challengeDifficulty = getChallengeDifficulty(cfRating);
+
+    const weakTopics = processedTags.filter(t => t.isWeak);
+    const strongTopics = processedTags.filter(t => !t.isWeak);
 
     const picked = [];
 
-    for (const topic of targetTags) {
-      if (picked.length >= 3) break;
-      const bank = PROBLEM_BANK[topic.tag];
-      if (!bank) continue;
+    if (weakTopics.length >= 1) {
+      const topic = weakTopics[0];
+      let problems = getProblemsForDifficulty(topic.tag, userDifficulty);
+      if (problems.length === 0) problems = getProblemsForTag(topic.tag);
+      const problem = pickRandom(problems);
+      if (problem) {
+        picked.push({
+          ...problem,
+          slot: 'fix',
+          slotLabel: '🎯 Fix immediately',
+          reason: topic.name,
+          accuracy: topic.accuracy
+        });
+      }
+    }
 
-      const random = bank[Math.floor(Math.random() * bank.length)];
-      const alreadyPicked = picked.find(p => p.name === random.name);
-      if (!alreadyPicked) {
-        picked.push({ ...random, reason: topic.name, accuracy: topic.accuracy });
+    if (weakTopics.length >= 2) {
+      const topic = weakTopics[1];
+      let problems = getProblemsForDifficulty(topic.tag, userDifficulty);
+      if (problems.length === 0) problems = getProblemsForTag(topic.tag);
+      const problem = pickRandom(
+        problems.filter(p => !picked.find(x => x.name === p.name))
+      );
+      if (problem) {
+        picked.push({
+          ...problem,
+          slot: 'improve',
+          slotLabel: '📈 Improve',
+          reason: topic.name,
+          accuracy: topic.accuracy
+        });
+      }
+    } 
+    
+    else if (weakTopics.length === 1 && processedTags.length >= 2) {
+      const topic = processedTags[1];
+      let problems = getProblemsForDifficulty(topic.tag, userDifficulty);
+      if (problems.length === 0) problems = getProblemsForTag(topic.tag);
+      const problem = pickRandom(
+        problems.filter(p => !picked.find(x => x.name === p.name))
+      );
+      if (problem) {
+        picked.push({
+          ...problem,
+          slot: 'improve',
+          slotLabel: '📈 Improve',
+          reason: topic.name,
+          accuracy: topic.accuracy
+        });
+      }
+    }
+
+    if (strongTopics.length >= 1) {
+      const topic = strongTopics[0];
+      let problems = getProblemsForDifficulty(topic.tag, challengeDifficulty);
+      if (problems.length === 0) problems = getProblemsForTag(topic.tag);
+      const problem = pickRandom(
+        problems.filter(p => !picked.find(x => x.name === p.name))
+      );
+      if (problem) {
+        picked.push({
+          ...problem,
+          slot: 'challenge',
+          slotLabel: '🔥 Challenge yourself',
+          reason: topic.name,
+          accuracy: topic.accuracy
+        });
+      }
+    } else if (processedTags.length >= 3) {
+      const topic = processedTags[processedTags.length - 1];
+      let problems = getProblemsForDifficulty(topic.tag, challengeDifficulty);
+      if (problems.length === 0) problems = getProblemsForTag(topic.tag);
+      const problem = pickRandom(
+        problems.filter(p => !picked.find(x => x.name === p.name))
+      );
+      if (problem) {
+        picked.push({
+          ...problem,
+          slot: 'challenge',
+          slotLabel: '🔥 Challenge yourself',
+          reason: topic.name,
+          accuracy: topic.accuracy
+        });
       }
     }
 
@@ -93,18 +132,30 @@ function Recommendations({ tagStats }) {
     return '#f85149';
   };
 
+  const getSlotColor = (slot) => {
+    if (slot === 'fix') return '#f85149';
+    if (slot === 'improve') return '#ffa116';
+    return '#58a6ff';
+  };
+
   return (
     <div className="recommendations-card">
       <div className="rec-header">
-        <h2 className="card-title">Personalized Recommendations</h2>
+        <div>
+          <h2 className="card-title">Personalized Recommendations</h2>
+          <p className="rec-subtitle">
+            Based on your Codeforces topic performance
+            {cfRating ? ` · CF Rating ${cfRating}` : ''}
+          </p>
+        </div>
         <button className="btn-generate" onClick={generateRecommendations}>
-          🎯 Get 3 Problems
+          🎯 Get Problems
         </button>
       </div>
 
       {!generated && (
         <p className="rec-placeholder">
-          Click "Get 3 Problems" to get curated problems targeting your weak topics.
+          Click "Get Problems" to get 3 smart recommendations targeting your weak topics.
         </p>
       )}
 
@@ -125,11 +176,16 @@ function Recommendations({ tagStats }) {
               className="rec-item"
             >
               <div className="rec-left">
-                <span className="rec-number">#{index + 1}</span>
+                <div
+                  className="rec-slot-badge"
+                  style={{ color: getSlotColor(prob.slot) }}
+                >
+                  {prob.slotLabel}
+                </div>
                 <div className="rec-info">
                   <span className="rec-name">{prob.name}</span>
                   <span className="rec-reason">
-                    Targets your weak area: <strong>{prob.reason}</strong> ({prob.accuracy}% accuracy)
+                    Topic: <strong>{prob.reason}</strong> — {prob.accuracy}% accuracy
                   </span>
                 </div>
               </div>

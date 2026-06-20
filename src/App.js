@@ -138,8 +138,12 @@ function App() {
           />
           <Recommendations
             tagStats={codeforcesData?.tagStats ?? {}}
+            cfRating={codeforcesData?.rating ?? null}
           />
-          <Leaderboard />
+          <Leaderboard 
+            token={token}
+            currentUser={user}
+          />
         </>
       )}
     </div>

@@ -113,3 +113,15 @@
   color: #58a6ff;
   font-size: 1rem;
 }
+
+.rec-subtitle {
+  font-size: 0.78rem;
+  color: #8b949e;
+  margin-top: 4px;
+}
+
+.rec-slot-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}

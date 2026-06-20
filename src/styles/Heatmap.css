@@ -28,32 +28,105 @@
   color: #e6edf3;
 }
 
+.heatmap-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 4px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.mode-btn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.mode-btn:hover { color: #e6edf3; }
+
+.mode-btn.active {
+  background: #21262d;
+  color: #e6edf3;
+}
+
+.mode-btn.active.leetcode { color: #ffa116; }
+.mode-btn.active.codeforces { color: #58a6ff; }
+
+.time-range-toggle {
+  display: flex;
+  gap: 4px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.range-btn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.2s;
+}
+
+.range-btn:hover { color: #e6edf3; }
+
+.range-btn.active {
+  background: #21262d;
+  color: #e6edf3;
+}
+
+.heatmap-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .month-labels {
-  display: grid;
-  grid-template-columns: repeat(53, 1fr);
+  display: flex;
   margin-bottom: 4px;
+  overflow: hidden;
 }
 
 .month-label {
   font-size: 0.7rem;
   color: #8b949e;
+  flex: 1;
 }
 
+/* Key fix — fixed size cells, flex-wrap grid */
 .heatmap-grid {
-  display: grid;
-  grid-template-columns: repeat(53, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  grid-auto-flow: column;
-  gap: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-bottom: 12px;
 }
 
 .heatmap-cell {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 2px;
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
   cursor: pointer;
   transition: opacity 0.2s;
+  flex-shrink: 0;
 }
 
 .heatmap-cell:hover {
@@ -95,9 +168,7 @@
   margin-bottom: 6px;
 }
 
-.tooltip-none {
-  color: #8b949e;
-}
+.tooltip-none { color: #8b949e; }
 
 .tooltip-row {
   color: #8b949e;

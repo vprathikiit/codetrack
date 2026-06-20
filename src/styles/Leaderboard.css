@@ -6,25 +6,188 @@
   margin-bottom: 20px;
 }
 
-.leaderboard-header {
+.lb-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.week-label {
-  font-size: 0.8rem;
+.btn-back {
+  background: transparent;
   color: #58a6ff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.room-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-room-action {
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-room-action:hover {
+  background: #2ea043;
+}
+
+.btn-room-action.secondary {
+  background: #1f4e8c;
+  color: #58a6ff;
+  border: 1px solid #58a6ff;
+}
+
+.btn-room-action.secondary:hover {
   background: #1c2d40;
-  padding: 4px 10px;
+}
+
+.btn-room-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lb-empty {
+  color: #8b949e;
+  font-size: 0.9rem;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.room-item:hover {
+  border-color: #58a6ff;
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.room-name {
+  color: #e6edf3;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.room-members {
+  color: #8b949e;
+  font-size: 0.78rem;
+}
+
+.room-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.room-code {
+  background: #21262d;
+  color: #58a6ff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+.room-arrow {
+  color: #58a6ff;
+}
+
+.room-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.room-form-label {
+  color: #8b949e;
+  font-size: 0.85rem;
+}
+
+.room-input {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #e6edf3;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.room-input:focus {
+  border-color: #58a6ff;
+}
+
+.room-error {
+  color: #f85149;
+  font-size: 0.85rem;
+}
+
+.lb-room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #30363d;
+}
+
+.lb-room-name {
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+.room-code-badge {
+  background: #21262d;
+  color: #58a6ff;
+  padding: 4px 12px;
   border-radius: 20px;
+  font-size: 0.8rem;
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+.lb-loading {
+  color: #8b949e;
+  text-align: center;
+  padding: 20px;
 }
 
 .lb-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .lb-table th {
@@ -53,9 +216,25 @@
 
 .rank-cell {
   font-size: 1.1rem;
+  width: 40px;
+}
+
+.member-cell {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .points-cell {
   color: #3fb950;
   font-weight: 600;
+}
+
+.week-label {
+  font-size: 0.8rem;
+  color: #58a6ff;
+  background: #1c2d40;
+  padding: 4px 10px;
+  border-radius: 20px;
 }
