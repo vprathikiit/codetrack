@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-router.post('./signup', async(req, res) => {
+router.post('/signup', async(req, res) => {
     try {
         const {email, password, lcUsername, cfUsername} = req.body;
 
@@ -24,7 +24,7 @@ router.post('./signup', async(req, res) => {
         await user.save();
 
         const token = jwt.sign(
-            {userId: uer._id, email: user.email},
+            {userId: user._id, email: user.email},
             process.env.JWT_SECRET,
             {expiresIn: '7d'}
         );
@@ -45,12 +45,12 @@ router.post('./signup', async(req, res) => {
     }
 });
 
-router.post('./login', async(req, res) => {
+router.post('/login', async(req, res) => {
     try {
-        const {email, password} = req.body();
+        const {email, password} = req.body;
         const user = await User.findOne({email});
         if(!user) {
-            return res.status(400),json({message: 'Invalid email or password'});
+            return res.status(400).json({message: 'Invalid email or password'});
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -69,7 +69,7 @@ router.post('./login', async(req, res) => {
             user: {
                 id: user._id,
                 email: user.email,
-                icUsername: user.lcUsername,
+                lcUsername: user.lcUsername,
                 cfUsername: user.cfUsername
             }
         });

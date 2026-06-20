@@ -1,21 +1,20 @@
 import React, {useState} from "react";
 import '../styles/UsernameForm.css';
+import { updateUsernameAPI } from "../utils/authAPI";
 
-function UsernameForm({onSubmit, loading}) {
-    const [lcUsername, setLcUsername] = useState('');
-    const [cfUsername, setCfUsername] = useState('');
+function UsernameForm({onSubmit, loading, token, initialLc, initialCf}) {
+    const [lcUsername, setLcUsername] = useState(initialLc || '');
+    const [cfUsername, setCfUsername] = useState(initialCf || '');
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if(!lcUsername.trim() && !cfUsername.trim()) {
             return;
         }
-        onSubmit(lcUsername.trim(), cfUsername.trim());
-    };
+        if(token) {
+            await updateUsernameAPI(token, lcUsername.trim(), cfUsername.trim());
+        }
 
-    const handleGuestLogin = () => {
-        setLcUsername('neal_wu');
-        setCfUsername('tourist');
-        onSubmit('neal_wu', 'tourist');
+        onSubmit(lcUsername.trim(), cfUsername.trim());
     };
 
     return (
@@ -52,13 +51,6 @@ function UsernameForm({onSubmit, loading}) {
                   disabled={loading}
                 >
                     {loading ? 'Loading...' : 'Track My Progress 🚀'}
-                </button>
-                <button 
-                  className="btn-guest"
-                  onClick={handleGuestLogin}
-                  disabled={loading}
-                >
-                    👀 Login as Guest
                 </button>
             </div>
         </div>
