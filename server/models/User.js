@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  dailyGoal: {
+    type: Number,
+    default: 5
+  },
+  weeklyGoal: {
+    type: Number,
+    default: 20
+  },
   createdAt: {
     type: Date,
     default: Date.now

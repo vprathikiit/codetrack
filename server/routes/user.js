@@ -32,4 +32,25 @@ router.put('/username', auth, async(req, res) => {
     }
 });
 
+router.put('/goals', auth, async (req, res) => {
+  try {
+    const { dailyGoal, weeklyGoal } = req.body;
+
+    if (dailyGoal < 1 || weeklyGoal < 1) {
+      return res.status(400).json({ message: 'Goals must be at least 1' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { dailyGoal, weeklyGoal },
+      { new: true }
+    ).select('-password');
+
+    res.json(user);
+  } 
+  catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;

@@ -11,6 +11,7 @@ import { fetchLeetCodeData } from './utils/leetcodeAPI';
 import { fetchCodeforcesData } from './utils/codeforcesAPI';
 import ContestTracker from './components/ContestTracker';
 import CompareProfiles from './components/CompareProfiles';
+import GoalTracker from './components/GoalTracker';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -130,6 +131,13 @@ function App() {
           <ProfileCard
             leetcodeData={leetcodeData}
             codeforcesData={codeforcesData}
+          />
+          <GoalTracker
+            token={token}
+            lcCalendar={leetcodeData?.submissionCalendar ?? {}}
+            cfCalendar={codeforcesData?.submissionCalendar ?? {}}
+            initialDailyGoal={user?.dailyGoal || 5}
+            initialWeeklyGoal={user?.weeklyGoal || 20}
           />
           <Heatmap 
             lcCalendar={leetcodeData?.submissionCalendar ?? {}}
