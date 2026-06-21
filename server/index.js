@@ -13,6 +13,7 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:3001',
     'https://codetrack-app.vercel.app',
+    'https://codetrack-final.vercel.app',
     /\.vercel\.app$/
   ],
   credentials: true
