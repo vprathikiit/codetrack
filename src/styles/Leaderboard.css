@@ -238,3 +238,8 @@
   padding: 4px 10px;
   border-radius: 20px;
 }
+
+.level-cell {
+  color: #ffa116;
+  font-weight: 600;
+}

@@ -3,7 +3,7 @@ import '../styles/Leaderboard.css';
 import { createRoomAPI, joinRoomAPI, getMyRoomsAPI } from "../utils/roomsAPI";
 import { fetchLeetCodeData } from "../utils/leetcodeAPI";
 import { fetchCodeforcesData } from "../utils/codeforcesAPI";
-import { calculateWeeklyScore, calculateTotalScore } from "../utils/scoring";
+import { calculateLifetimeXP, calculateWeeklyScore, calculateStreak, calculateLevel, calculateWeeklyXP } from "../utils/xpSystem";
 
 function Leaderboard({ token, currentUser }) {
   const [rooms, setRooms] = useState([]);
@@ -83,8 +83,15 @@ function Leaderboard({ token, currentUser }) {
           email: member.email,
           lcUsername: member.lcUsername || '—',
           cfUsername: member.cfUsername || '—',
-          weeklyScore: calculateWeeklyScore(lcData, cfData),
-          totalScore: calculateTotalScore(lcData, cfData),
+          weeklyXP: calculateWeeklyXP(lcData, cfData),
+          lifetimeXP: calculateLifetimeXP(lcData, cfData),
+          level: calculateLevel(calculateLifetimeXP(lcData, cfData)),
+          streak: calculateStreak(
+            lcData?.submissionCalendar ?? {},
+            cfData?.submissionCalendar ?? {}
+          ).currentStreak,
+          cfRating: cfData?.rating || '—',
+          lcSolved: lcData?.total || 0,
           isYou: member.email === currentUser?.email
         });
       } catch (err) {
@@ -92,14 +99,18 @@ function Leaderboard({ token, currentUser }) {
           email: member.email,
           lcUsername: member.lcUsername || '—',
           cfUsername: member.cfUsername || '—',
-          weeklyScore: 0,
-          totalScore: 0,
+          weeklyXP: 0,
+          lifetimeXP: 0,
+          level: 1,
+          streaK: 0,
+          cfRating: '—',
+          lcSolved: 0,
           isYou: member.email === currentUser?.email
         });
       }
     }
 
-    entries.sort((a, b) => b.weeklyScore - a.weeklyScore);
+    entries.sort((a, b) => b.weeklyXP - a.weeklyXP);
     setLeaderboard(entries);
     setLoadingLeaderboard(false);
   };
@@ -261,10 +272,12 @@ function Leaderboard({ token, currentUser }) {
                 <tr>
                   <th>#</th>
                   <th>Member</th>
-                  <th>LC</th>
+                  <th>Level</th>
+                  <th>Weekly XP</th>
+                  <th>Total XP</th>
+                  <th>🔥</th>
                   <th>CF</th>
-                  <th>Weekly</th>
-                  <th>Total</th>
+                  <th>LC</th>
                 </tr>
               </thead>
               <tbody>
@@ -279,10 +292,12 @@ function Leaderboard({ token, currentUser }) {
                     <td className="member-cell">
                       <span>{entry.email}</span>
                     </td>
-                    <td>{entry.lcUsername}</td>
-                    <td>{entry.cfUsername}</td>
-                    <td className="points-cell">{entry.weeklyScore} pts</td>
-                    <td>{entry.totalScore} pts</td>
+                    <td className="level-cell">⭐ {entry.level}</td>
+                    <td className="points-cell">{entry.weeklyXP} XP</td>
+                    <td>{entry.lifetimeXP.toLocaleString()} XP</td>
+                    <td>{entry.streak} 🔥</td>
+                    <td>{entry.cfRating}</td>
+                    <td>{entry.lcSolved}</td>
                   </tr>
                 ))}
               </tbody>

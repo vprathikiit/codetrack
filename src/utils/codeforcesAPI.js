@@ -87,7 +87,8 @@ export const fetchCodeforcesData = async(username) => {
             avatar: user.avater ?? '',
             submissionCalendar: calendar,
             tagStats: tagStats,
-            totalSubmissions: submissions.length
+            totalSubmissions: submissions.length,
+            submissions: submissions
         };
     }
     catch(error) {
