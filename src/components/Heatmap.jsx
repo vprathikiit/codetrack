@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import '../styles/Heatmap.css';
-import { getLast365Days, mergeCalendars } from "../utils/dateUtils";
+import { mergeCalendars } from "../utils/dateUtils";
 
 const TIME_RANGES = [
     {label: '30 days', days: 30},

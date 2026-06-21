@@ -17,7 +17,7 @@ function Leaderboard({ token, currentUser }) {
   const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
 
   useEffect(() => {
-    if (token) loadMyRooms();
+  if (token) loadMyRooms();
   }, [token]);
 
   const loadMyRooms = async () => {
