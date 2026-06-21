@@ -1,0 +1,275 @@
+.contest-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.contest-card.empty-state {
+  text-align: center;
+  color: #8b949e;
+  padding: 40px;
+  font-size: 0.95rem;
+}
+
+.contest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contest-tabs {
+  display: flex;
+  gap: 4px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover { color: #e6edf3; }
+
+.tab-btn.active {
+  background: #21262d;
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+.contest-loading {
+  text-align: center;
+  color: #8b949e;
+  padding: 30px;
+}
+
+.contest-empty {
+  color: #8b949e;
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+}
+
+/* Upcoming */
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contest-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.contest-item:hover {
+  border-color: #58a6ff;
+}
+
+.contest-name {
+  color: #e6edf3;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.contest-meta {
+  font-size: 0.78rem;
+  color: #8b949e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contest-type {
+  background: #21262d;
+  color: #58a6ff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+}
+
+.contest-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.countdown-label {
+  font-size: 0.72rem;
+  color: #8b949e;
+}
+
+.countdown-timer {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffa116;
+  font-family: monospace;
+}
+
+.contest-link {
+  color: #58a6ff;
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1px solid #58a6ff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.contest-link:hover {
+  background: #1c2d40;
+}
+
+/* History Table */
+.history-list {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.history-table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: #8b949e;
+  border-bottom: 1px solid #30363d;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.history-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #21262d;
+  color: #e6edf3;
+}
+
+.history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.history-table tr:hover td {
+  background: #0d1117;
+}
+
+.contest-name-link {
+  color: #e6edf3;
+  text-decoration: none;
+}
+
+.contest-name-link:hover {
+  color: #58a6ff;
+}
+
+.positive { color: #3fb950; font-weight: 600; }
+.negative { color: #f85149; font-weight: 600; }
+
+.rating-cell {
+  color: #58a6ff;
+  font-weight: 600;
+}
+
+.date-cell {
+  color: #8b949e;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+/* Rating Graph */
+.rating-graph {
+  padding-top: 8px;
+}
+
+.graph-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.graph-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gs-label {
+  font-size: 0.72rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gs-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.gs-value.peak {
+  color: #ffa116;
+}
+
+/* Tooltip */
+.rating-tooltip {
+  background: #1c2128;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.8rem;
+  min-width: 180px;
+}
+
+.rt-name {
+  color: #e6edf3;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+}
+
+.rt-rating {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+.rt-change {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.rt-rank {
+  color: #8b949e;
+  font-size: 0.78rem;
+}
+
+.rt-date {
+  color: #484f58;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
