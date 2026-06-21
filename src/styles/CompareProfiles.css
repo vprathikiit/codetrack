@@ -1,0 +1,252 @@
+.compare-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.compare-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.compare-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.compare-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compare-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.compare-input {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #e6edf3;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.compare-input:focus {
+  border-color: #58a6ff;
+}
+
+.compare-input::placeholder {
+  color: #484f58;
+}
+
+.compare-error {
+  color: #f85149;
+  font-size: 0.85rem;
+}
+
+.btn-compare {
+  background: #1f4e8c;
+  color: #58a6ff;
+  border: 1px solid #58a6ff;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.btn-compare:hover {
+  background: #1c2d40;
+}
+
+.btn-compare:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Headers */
+.compare-headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px 24px;
+}
+
+.compare-user {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compare-user.me { align-items: flex-start; }
+.compare-user.opp { align-items: flex-end; }
+
+.compare-username {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.compare-level {
+  font-size: 0.85rem;
+  color: #ffa116;
+}
+
+.compare-vs {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #f85149;
+}
+
+/* Table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.section-header td {
+  background: #0d1117;
+  color: #8b949e;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 12px;
+  border-top: 1px solid #30363d;
+  border-bottom: 1px solid #30363d;
+}
+
+.stat-row td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #21262d;
+}
+
+.stat-label {
+  text-align: center;
+  color: #8b949e;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  color: #8b949e;
+  width: 35%;
+}
+
+.stat-row td:first-child {
+  text-align: right;
+}
+
+.stat-row td:last-child {
+  text-align: left;
+}
+
+.stat-value.winner {
+  color: #3fb950;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.win-badge {
+  margin: 0 6px;
+  color: #3fb950;
+  font-size: 0.8rem;
+}
+
+/* Tag comparison */
+.tag-compare-row td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #21262d;
+}
+
+.tag-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.tag-bar-wrapper.reverse {
+  justify-content: flex-start;
+}
+
+.tag-val {
+  font-size: 0.82rem;
+  color: #8b949e;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.tag-val.winner {
+  color: #3fb950;
+  font-weight: 700;
+}
+
+.tag-bar-track {
+  flex: 1;
+  background: #21262d;
+  border-radius: 3px;
+  height: 6px;
+  overflow: hidden;
+  max-width: 120px;
+}
+
+.tag-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.tag-bar-fill.me { background: #58a6ff; }
+.tag-bar-fill.opp { background: #f85149; }
+
+/* Winner Summary */
+.winner-summary {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.winner-msg {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.winner-msg.me {
+  background: #1a2d1a;
+  color: #3fb950;
+  border: 1px solid #3fb950;
+}
+
+.winner-msg.opp {
+  background: #2d1a1a;
+  color: #f85149;
+  border: 1px solid #f85149;
+}
+
+.winner-msg.tie {
+  background: #1c2d40;
+  color: #58a6ff;
+  border: 1px solid #58a6ff;
+}
+
+.leetcode-color { color: #ffa116; }
+.cf-color { color: #1e90ff; }

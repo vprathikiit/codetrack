@@ -10,6 +10,7 @@ import Recommendations from './components/Recommendations';
 import { fetchLeetCodeData } from './utils/leetcodeAPI';
 import { fetchCodeforcesData } from './utils/codeforcesAPI';
 import ContestTracker from './components/ContestTracker';
+import CompareProfiles from './components/CompareProfiles';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -143,6 +144,10 @@ function App() {
           />
           <ContestTracker
             cfUsername={codeforcesData?.username ?? null}
+          />
+          <CompareProfiles
+            myLcData={leetcodeData}
+            myCfData={codeforcesData}
           />
           <Leaderboard 
             token={token}
