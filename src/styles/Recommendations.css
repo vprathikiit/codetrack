@@ -125,3 +125,26 @@
   font-weight: 600;
   margin-bottom: 4px;
 }
+
+@media (max-width: 768px) {
+  .rec-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rec-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rec-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .rec-arrow {
+    display: none;
+  }
+}

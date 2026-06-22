@@ -265,3 +265,32 @@
   padding: 10px 0;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .xp-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .streak-section {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .streak-badge {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .cf-rating-row {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+}

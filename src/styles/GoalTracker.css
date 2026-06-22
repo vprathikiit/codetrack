@@ -204,3 +204,23 @@
   font-size: 0.82rem;
   color: #8b949e;
 }
+
+@media (max-width: 768px) {
+  .goal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .goal-progress-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-edit-row {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-current {
+    font-size: 1.6rem;
+  }
+}

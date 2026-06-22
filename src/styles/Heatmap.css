@@ -189,3 +189,26 @@
   color: #3fb950;
   font-weight: 600;
 }
+
+@media (max-width: 768px) {
+  .heatmap-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .heatmap-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heatmap-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .heatmap-stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

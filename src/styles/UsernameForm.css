@@ -98,3 +98,19 @@
 
 .leetcode-color { color: #ffa116; }
 .cf-color { color: #1e90ff; }
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-guest {
+    width: 100%;
+    text-align: center;
+  }
+}

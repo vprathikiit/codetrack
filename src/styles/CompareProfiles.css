@@ -250,3 +250,33 @@
 
 .leetcode-color { color: #ffa116; }
 .cf-color { color: #1e90ff; }
+
+@media (max-width: 768px) {
+  .compare-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-headers {
+    padding: 12px 16px;
+  }
+
+  .compare-username {
+    font-size: 0.85rem;
+  }
+
+  .compare-table {
+    font-size: 0.8rem;
+  }
+
+  .stat-value {
+    font-size: 0.82rem;
+  }
+
+  .tag-bar-track {
+    max-width: 70px;
+  }
+
+  .compare-vs {
+    font-size: 1.2rem;
+  }
+}

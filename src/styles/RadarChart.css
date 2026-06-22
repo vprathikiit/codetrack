@@ -136,3 +136,20 @@
   font-size: 0.85rem;
   color: #3fb950;
 }
+
+@media (max-width: 768px) {
+  .radar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topic-name {
+    width: 90px;
+    font-size: 0.78rem;
+  }
+
+  .topic-count {
+    display: none;
+  }
+}
