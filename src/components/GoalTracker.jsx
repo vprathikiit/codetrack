@@ -16,25 +16,27 @@ function GoalTracker({ token, lcCalendar, cfCalendar, initialDailyGoal, initialW
   }, [initialDailyGoal, initialWeeklyGoal]);
 
   const getTodayCount = () => {
-    const merged = mergeCalendars(lcCalendar, cfCalendar);
-    const today = new Date();
-    const todayTs = Math.floor(
-      Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 1000
-    );
-    return merged[todayTs] || 0;
-  };
+  const merged = mergeCalendars(lcCalendar, cfCalendar);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayTs = Math.floor(today.getTime() / 1000);
+  console.log('Today ts:', todayTs, 'Merged keys:', Object.keys(merged).slice(0, 5));
+  return merged[todayTs] || 0;
+};
 
   const getWeekCount = () => {
-    const merged = mergeCalendars(lcCalendar, cfCalendar);
-    const oneWeekAgo = Math.floor(Date.now() / 1000) - 7 * 24 * 3600;
-    let count = 0;
-    Object.entries(merged).forEach(([ts, c]) => {
-      if (Number(ts) >= oneWeekAgo) {
-        count += c;
-      }
-    });
-    return count;
-  };
+  const merged = mergeCalendars(lcCalendar, cfCalendar);
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  oneWeekAgo.setHours(0, 0, 0, 0);
+  const oneWeekAgoTs = Math.floor(oneWeekAgo.getTime() / 1000);
+
+  let count = 0;
+  Object.entries(merged).forEach(([ts, c]) => {
+    if (Number(ts) >= oneWeekAgoTs) count += c;
+  });
+  return count;
+};
 
   const todayCount = getTodayCount();
   const weekCount = getWeekCount();
