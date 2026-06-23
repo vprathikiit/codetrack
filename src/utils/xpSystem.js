@@ -3,9 +3,7 @@
 // ============================================
 
 export const lcLifetimeXP = (lcData) => {
-  if (!lcData) {
-    return 0;
-  }
+  if (!lcData) return 0;
   return (
     (lcData.easy || 0) * 10 +
     (lcData.medium || 0) * 25 +
@@ -14,9 +12,7 @@ export const lcLifetimeXP = (lcData) => {
 };
 
 export const lcWeeklyXP = (lcData) => {
-  if (!lcData) {
-    return 0;
-  }
+  if (!lcData) return 0;
 
   const total = lcData.total || 0;
   if (total === 0) return 0;
@@ -30,9 +26,7 @@ export const lcWeeklyXP = (lcData) => {
 
   if (lcData.submissionCalendar) {
     Object.entries(lcData.submissionCalendar).forEach(([ts, count]) => {
-      if (Number(ts) >= oneWeekAgo) {
-        weeklyCount += count;
-      }
+      if (Number(ts) >= oneWeekAgo) weeklyCount += count;
     });
   }
 
@@ -43,45 +37,30 @@ export const lcWeeklyXP = (lcData) => {
   );
 };
 
+// ============================================
+// CODEFORCES XP
+// ============================================
 
 export const cfProblemXP = (rating) => {
-  if (!rating || rating < 1200) {
-    return 25;
-  }
-  if (rating < 1400) {
-    return 40;
-  }
-  if (rating < 1600) {
-    return 60;
-  }
-  if (rating < 1800) {
-    return 80;
-  }
-  if (rating < 2000) {
-    return 100;
-  }
-  if (rating < 2200) {
-    return 120;
-  }
+  if (!rating || rating < 1200) return 25;
+  if (rating < 1400) return 40;
+  if (rating < 1600) return 60;
+  if (rating < 1800) return 80;
+  if (rating < 2000) return 100;
+  if (rating < 2200) return 120;
   return 150;
 };
 
 export const cfLifetimeXP = (cfData) => {
-  if (!cfData?.submissions) {
-    return 0;
-  }
+  if (!cfData?.submissions) return 0;
 
   let xp = 0;
   const seen = new Set();
 
   cfData.submissions.forEach((sub) => {
-    if (sub.verdict !== 'OK') {
-        return;
-    }
+    if (sub.verdict !== 'OK') return;
     const key = `${sub.problem.name}-${sub.problem.rating}`;
-    if (seen.has(key)) {
-        return; 
-    }
+    if (seen.has(key)) return;
     seen.add(key);
     xp += cfProblemXP(sub.problem.rating || 800);
   });
@@ -90,25 +69,17 @@ export const cfLifetimeXP = (cfData) => {
 };
 
 export const cfWeeklyXP = (cfData) => {
-  if (!cfData?.submissions) {
-    return 0;
-  }
+  if (!cfData?.submissions) return 0;
 
   const oneWeekAgo = Math.floor(Date.now() / 1000) - 7 * 24 * 3600;
   let xp = 0;
   const seen = new Set();
 
   cfData.submissions.forEach((sub) => {
-    if (sub.creationTimeSeconds < oneWeekAgo) {
-        return;
-    }
-    if (sub.verdict !== 'OK') {
-        return;
-    }
+    if (sub.creationTimeSeconds < oneWeekAgo) return;
+    if (sub.verdict !== 'OK') return;
     const key = `${sub.problem.name}-${sub.problem.rating}`;
-    if (seen.has(key)) {
-        return;
-    }
+    if (seen.has(key)) return;
     seen.add(key);
     xp += cfProblemXP(sub.problem.rating || 800);
   });
@@ -116,17 +87,26 @@ export const cfWeeklyXP = (cfData) => {
   return xp;
 };
 
+// ============================================
+// STREAK — uses local midnight consistently
+// ============================================
+
+const toLocalMidnight = (ts) => {
+  const date = new Date(Number(ts) * 1000);
+  date.setHours(0, 0, 0, 0);
+  return Math.floor(date.getTime() / 1000);
+};
+
 export const calculateStreak = (lcCalendar = {}, cfCalendar = {}) => {
-  const merged = {};
+  // Build set of active days using LOCAL midnight
+  const activeDays = new Set();
 
   Object.entries(lcCalendar).forEach(([ts, count]) => {
-    const day = Math.floor(Number(ts) / 86400) * 86400;
-    merged[day] = (merged[day] || 0) + count;
+    if (count > 0) activeDays.add(toLocalMidnight(ts));
   });
 
   Object.entries(cfCalendar).forEach(([ts, count]) => {
-    const day = Math.floor(Number(ts) / 86400) * 86400;
-    merged[day] = (merged[day] || 0) + count;
+    if (count > 0) activeDays.add(toLocalMidnight(ts));
   });
 
   const today = new Date();
@@ -135,65 +115,58 @@ export const calculateStreak = (lcCalendar = {}, cfCalendar = {}) => {
   let currentStreak = 0;
   let bestStreak = 0;
   let tempStreak = 0;
-  let checkDate = new Date(today);
+  let currentStreakEnded = false;
 
   for (let i = 0; i < 365; i++) {
-    const ts = Math.floor(
-      Date.UTC(
-        checkDate.getFullYear(),
-        checkDate.getMonth(),
-        checkDate.getDate()
-      ) / 1000
-    );
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    const ts = Math.floor(date.getTime() / 1000);
 
-    if (merged[ts] && merged[ts] > 0) {
+    if (activeDays.has(ts)) {
       tempStreak++;
-      if (i === 0 || currentStreak > 0) {
+      bestStreak = Math.max(bestStreak, tempStreak);
+      if (!currentStreakEnded) {
         currentStreak = tempStreak;
       }
-      bestStreak = Math.max(bestStreak, tempStreak);
     } else {
       if (i === 0) {
-      } 
-      else {
-        if (currentStreak === 0) {
-            currentStreak = 0;
-        }
-        tempStreak = 0;
+        // No activity today yet — don't break streak, check yesterday
+        continue;
       }
+      if (!currentStreakEnded) currentStreakEnded = true;
+      tempStreak = 0;
     }
-
-    checkDate.setDate(checkDate.getDate() - 1);
   }
 
   return { currentStreak, bestStreak };
 };
 
+// ============================================
+// STREAK BONUS XP
+// ============================================
+
 export const streakBonusXP = (currentStreak) => {
   let bonus = 0;
-  if (currentStreak >= 100) {
-    bonus += 1000;
-  }
-  else if (currentStreak >= 30) {
-    bonus += 250;
-  }
-  else if (currentStreak >= 7) {
-    bonus += 50;
-  }
+  if (currentStreak >= 100) bonus += 1000;
+  else if (currentStreak >= 30) bonus += 250;
+  else if (currentStreak >= 7) bonus += 50;
   return bonus;
 };
 
+// ============================================
+// ACTIVITY BONUS — also uses local midnight
+// ============================================
+
 export const activityBonusXP = (lcCalendar = {}, cfCalendar = {}) => {
-  const merged = {};
+  const activeDays = new Set();
 
   Object.entries(lcCalendar).forEach(([ts, count]) => {
-    const day = Math.floor(Number(ts) / 86400) * 86400;
-    merged[day] = (merged[day] || 0) + count;
+    if (count > 0) activeDays.add(toLocalMidnight(ts));
   });
 
   Object.entries(cfCalendar).forEach(([ts, count]) => {
-    const day = Math.floor(Number(ts) / 86400) * 86400;
-    merged[day] = (merged[day] || 0) + count;
+    if (count > 0) activeDays.add(toLocalMidnight(ts));
   });
 
   const today = new Date();
@@ -203,14 +176,17 @@ export const activityBonusXP = (lcCalendar = {}, cfCalendar = {}) => {
   for (let i = 0; i < 7; i++) {
     const d = new Date(today);
     d.setDate(today.getDate() - i);
-    const ts = Math.floor(
-      Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 1000
-    );
-    if (merged[ts] && merged[ts] > 0) activeLast7++;
+    d.setHours(0, 0, 0, 0);
+    const ts = Math.floor(d.getTime() / 1000);
+    if (activeDays.has(ts)) activeLast7++;
   }
 
   return activeLast7 === 7 ? 75 : 0;
 };
+
+// ============================================
+// TOTAL XP
+// ============================================
 
 export const calculateLifetimeXP = (lcData, cfData) => {
   const lc = lcLifetimeXP(lcData);
@@ -230,6 +206,10 @@ export const calculateLifetimeXP = (lcData, cfData) => {
 export const calculateWeeklyXP = (lcData, cfData) => {
   return lcWeeklyXP(lcData) + cfWeeklyXP(cfData);
 };
+
+// ============================================
+// LEVEL
+// ============================================
 
 export const calculateLevel = (xp) => {
   return Math.floor(Math.sqrt(xp / 500)) + 1;
@@ -257,15 +237,13 @@ export const getLevelProgress = (xp) => {
   };
 };
 
+// ============================================
+// STREAK BADGE
+// ============================================
+
 export const getStreakBadge = (streak) => {
-  if (streak >= 100) {
-    return '🔥 Century Coder';
-  }
-  if (streak >= 30) {
-    return '🔥 Monthly Master';
-  }
-  if (streak >= 7) {
-    return '🔥 Week Warrior';
-  }
+  if (streak >= 100) return '🔥 Century Coder';
+  if (streak >= 30) return '🔥 Monthly Master';
+  if (streak >= 7) return '🔥 Week Warrior';
   return null;
 };

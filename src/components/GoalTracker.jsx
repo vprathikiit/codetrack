@@ -3,7 +3,7 @@ import '../styles/GoalTracker.css';
 import { saveGoalsAPI } from '../utils/goalsAPI';
 import { mergeCalendars } from '../utils/dateUtils';
 
-function GoalTracker({ token, lcCalendar, cfCalendar, initialDailyGoal, initialWeeklyGoal }) {
+function GoalTracker({ token, lcCalendar, cfCalendar, cfSubmissions = [], lcData, initialDailyGoal, initialWeeklyGoal }) {
   const [dailyGoal, setDailyGoal] = useState(initialDailyGoal || 5);
   const [weeklyGoal, setWeeklyGoal] = useState(initialWeeklyGoal || 20);
   const [editing, setEditing] = useState(false);
@@ -16,26 +16,65 @@ function GoalTracker({ token, lcCalendar, cfCalendar, initialDailyGoal, initialW
   }, [initialDailyGoal, initialWeeklyGoal]);
 
   const getTodayCount = () => {
-  const merged = mergeCalendars(lcCalendar, cfCalendar);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const todayTs = Math.floor(today.getTime() / 1000);
-  console.log('Today ts:', todayTs, 'Merged keys:', Object.keys(merged).slice(0, 5));
-  return merged[todayTs] || 0;
+  const tomorrowTs = todayTs + 86400;
+
+  // CF — count unique accepted problems today
+  const cfSolvedToday = new Set();
+  cfSubmissions.forEach((sub) => {
+    if (sub.verdict !== 'OK') return;
+    if (
+      sub.creationTimeSeconds >= todayTs &&
+      sub.creationTimeSeconds < tomorrowTs
+    ) {
+      cfSolvedToday.add(sub.problem.name);
+    }
+  });
+
+  // LC — use calendar count (no verdict data available)
+  let lcToday = 0;
+  if (lcCalendar) {
+    Object.entries(lcCalendar).forEach(([ts, count]) => {
+      const d = new Date(Number(ts) * 1000);
+      d.setHours(0, 0, 0, 0);
+      if (Math.floor(d.getTime() / 1000) === todayTs) {
+        lcToday += count;
+      }
+    });
+  }
+
+  return cfSolvedToday.size + lcToday;
 };
 
-  const getWeekCount = () => {
-  const merged = mergeCalendars(lcCalendar, cfCalendar);
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  oneWeekAgo.setHours(0, 0, 0, 0);
-  const oneWeekAgoTs = Math.floor(oneWeekAgo.getTime() / 1000);
+const getWeekCount = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const oneWeekAgoTs = Math.floor(today.getTime() / 1000) - 7 * 24 * 3600;
 
-  let count = 0;
-  Object.entries(merged).forEach(([ts, c]) => {
-    if (Number(ts) >= oneWeekAgoTs) count += c;
+  // CF — count unique accepted problems this week
+  const cfSolvedWeek = new Set();
+  cfSubmissions.forEach((sub) => {
+    if (sub.verdict !== 'OK') return;
+    if (sub.creationTimeSeconds >= oneWeekAgoTs) {
+      cfSolvedWeek.add(sub.problem.name);
+    }
   });
-  return count;
+
+  // LC — use calendar count
+  let lcWeek = 0;
+  if (lcCalendar) {
+    Object.entries(lcCalendar).forEach(([ts, count]) => {
+      const d = new Date(Number(ts) * 1000);
+      d.setHours(0, 0, 0, 0);
+      if (Math.floor(d.getTime() / 1000) >= oneWeekAgoTs) {
+        lcWeek += count;
+      }
+    });
+  }
+
+  return cfSolvedWeek.size + lcWeek;
 };
 
   const todayCount = getTodayCount();

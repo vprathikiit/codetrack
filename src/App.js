@@ -136,6 +136,8 @@ function App() {
             token={token}
             lcCalendar={leetcodeData?.submissionCalendar ?? {}}
             cfCalendar={codeforcesData?.submissionCalendar ?? {}}
+            cfSubmissions={codeforcesData?.submissions ?? []}
+            lcData={leetcodeData}
             initialDailyGoal={user?.dailyGoal || 5}
             initialWeeklyGoal={user?.weeklyGoal || 20}
           />
