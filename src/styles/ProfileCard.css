@@ -294,3 +294,14 @@
     align-items: center;
   }
 }
+
+.error-box {
+  padding: 16px 0;
+  text-align: center;
+}
+
+.error-hint {
+  font-size: 0.75rem;
+  color: #484f58;
+  margin-top: 4px;
+}

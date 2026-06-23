@@ -91,3 +91,18 @@ h1 {
     padding: 10px 14px;
   }
 }
+
+.btn-refresh {
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-refresh:hover {
+  border-color: #58a6ff;
+  transform: rotate(180deg);
+}

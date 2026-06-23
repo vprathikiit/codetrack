@@ -91,8 +91,8 @@ export const fetchCodeforcesData = async(username) => {
             submissions: submissions
         };
     }
-    catch(error) {
-        console.log('Codeforces API error : ', error.message);
-        return null;
-    }
+     catch (error) {
+    console.error('Codeforces API error:', error.message);
+    return { username, error: true, errorMsg: error.message };
+  }
 };

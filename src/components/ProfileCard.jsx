@@ -93,7 +93,10 @@ function ProfileCard({ leetcodeData, codeforcesData }) {
               <span className="username">@{leetcodeData.username}</span>
             </div>
             {leetcodeData.error ? (
-              <p className="error-text">❌ User not found</p>
+              <div className="error-box">
+                <p className="error-text">❌ Failed to load</p>
+                <p className="error-hint">Check username or try refreshing</p>
+              </div>
             ) : (
               <>
                 <div className="lc-stats">
@@ -132,7 +135,10 @@ function ProfileCard({ leetcodeData, codeforcesData }) {
               <span className="username">@{codeforcesData.username}</span>
             </div>
             {codeforcesData.error ? (
-              <p className="error-text">❌ User not found</p>
+              <div className="error-box">
+                <p className="error-text">❌ Failed to load</p>
+                <p className="error-hint">Check username or try refreshing</p>
+              </div>
             ) : (
               <>
                 <div className="cf-rating-box">

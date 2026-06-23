@@ -12,6 +12,7 @@ import { fetchCodeforcesData } from './utils/codeforcesAPI';
 import ContestTracker from './components/ContestTracker';
 import CompareProfiles from './components/CompareProfiles';
 import GoalTracker from './components/GoalTracker';
+import DashboardSkeleton from './components/DashboardSkeleton';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -98,19 +99,31 @@ function App() {
   return (
     <div className="app">
       <div className="dashboard-header">
-        <div>
-          <h1>CodeTrack 🚀</h1>
-          <p className="subtitle">Your unified coding progress dashboard</p>
-        </div>
-        <div className="header-right">
-          <span className="user-email">
-            {user.isGuest ? '👀 Guest' : user.email}
-          </span>
-          <button className="btn-logout" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </div>
+  <div>
+    <h1>CodeTrack 🚀</h1>
+    <p className="subtitle">Your unified coding progress dashboard</p>
+  </div>
+  <div className="header-right">
+    <span className="user-email">
+      {user.isGuest ? '👀 Guest' : user.email}
+    </span>
+    {hasSearched && !loading && (
+      <button
+        className="btn-refresh"
+        onClick={() => handleSubmit(
+          leetcodeData?.username || '',
+          codeforcesData?.username || ''
+        )}
+        title="Refresh data"
+      >
+        🔄
+      </button>
+    )}
+    <button className="btn-logout" onClick={handleLogout}>
+      Logout
+    </button>
+  </div>
+</div>
 
       <UsernameForm 
         onSubmit={handleSubmit}
@@ -121,10 +134,13 @@ function App() {
       />
 
       {loading && (
-        <div className='loading-banner'>
-          ⏳ Fetching your data from LeetCode and Codeforces...
-        </div>
-      )}
+  <>
+    <div className="loading-banner">
+      ⏳ Fetching your data from LeetCode and Codeforces...
+    </div>
+    <DashboardSkeleton />
+  </>
+)}
 
       {hasSearched && !loading && (
         <>
